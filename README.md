@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Image Background Remover
+
+Free online tool to remove backgrounds from images using AI. Built with Next.js, deployed on Cloudflare Pages.
+
+## Features
+- 🚀 **Fast processing**: Remove backgrounds in seconds
+- 💰 **Free tier**: 50 free images per month via Remove.bg API
+- ☁️ **No storage**: Images processed in memory, not stored
+- 🌍 **Global CDN**: Deployed on Cloudflare Pages
+- 📱 **Responsive**: Works on all devices
+
+## Tech Stack
+- **Frontend**: Next.js 14 + TypeScript + Tailwind CSS
+- **Backend**: Next.js API Routes
+- **API**: Remove.bg
+- **Deployment**: Cloudflare Pages
+- **Storage**: None (in-memory processing only)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+1. Remove.bg API key (free: https://www.remove.bg/api)
+2. Cloudflare account (free: https://dash.cloudflare.com)
 
+### Development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
+Create `.env.local`:
+```env
+REMOVEBG_API_KEY=your_removebg_api_key
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deployment
+1. Connect GitHub repo to Cloudflare Pages
+2. Set environment variable `REMOVEBG_API_KEY`
+3. Deploy automatically on push
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API Usage
+The tool uses Remove.bg API with these parameters:
+- Free tier: 50 images/month
+- Max file size: 12MB
+- Supported formats: JPG, PNG, WebP
+- Output format: PNG with transparency
 
-## Learn More
+## Documentation
+- [MVP Requirements](./MVP_REQUIREMENTS.md) - Complete project requirements
+- [Cloudflare Deployment](./cloudflare-pages.md) - Deployment guide
+- [Original PRD](./docs/image_background_remover_mvp_prd.md) - Original product requirements
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+MIT
