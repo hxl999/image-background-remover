@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export interface RemoveBgResponse {
   success: boolean;
   image?: string;
@@ -8,13 +6,13 @@ export interface RemoveBgResponse {
 
 export async function processImage(base64Image: string): Promise<RemoveBgResponse> {
   try {
-    // In production, this would call your API route
-    // For now, we'll simulate the API call structure
-    const response = await axios.post("/api/remove-bg", {
-      image: base64Image,
+    const response = await fetch("/api/remove-bg", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: base64Image }),
     });
 
-    return response.data;
+    return await response.json();
   } catch (error) {
     console.error("Error processing image:", error);
     return {
