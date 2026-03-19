@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
+
+export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,36 +13,50 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get API key from environment variable
     const apiKey = process.env.REMOVEBG_API_KEY;
-    
+
     if (!apiKey) {
-      console.error("REMOVEBG_API_KEY is not set");
       return NextResponse.json(
         { success: false, error: "Server configuration error" },
         { status: 500 }
       );
     }
 
-    // Call Remove.bg API
-    const response = await axios.post(
-      "https://api.remove.bg/v1.0/removebg",
-      {
+    const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+      method: "POST",
+      headers: {
+        "X-Api-Key": apiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         image_file_b64: image,
         size: "auto",
         format: "png",
-      },
-      {
-        headers: {
-          "X-Api-Key": apiKey,
-          "Content-Type": "application/json",
-        },
-        responseType: "arraybuffer", // Get binary response
-      }
-    );
+      }),
+    });
 
-    // Convert binary response to base64
-    const base64Image = Buffer.from(response.data, "binary").toString("base64");
+    if (!response.ok) {
+      let errorMessage = "Failed to remove background";
+      if (response.status === 402) {
+        errorMessage = "API quota exceeded. Free tier allows 50 images per month.";
+      } else if (response.status === 400) {
+        errorMessage = "Invalid image format or size";
+      } else if (response.status === 403) {
+        errorMessage = "Invalid API key";
+      }
+      return NextResponse.json(
+        { success: false, error: errorMessage },
+        { status: response.status }
+      );
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64Image = btoa(binary);
 
     return NextResponse.json({
       success: true,
@@ -49,30 +64,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error("Remove.bg API error:", error);
-
-    let errorMessage = "Failed to remove background";
-    
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 402) {
-        errorMessage = "API quota exceeded. Free tier allows 50 images per month.";
-      } else if (error.response?.status === 400) {
-        errorMessage = "Invalid image format or size";
-      } else if (error.response?.status === 403) {
-        errorMessage = "Invalid API key";
-      } else if (error.response?.data) {
-        // Try to parse error from Remove.bg
-        try {
-          const errorData = JSON.parse(Buffer.from(error.response.data).toString());
-          errorMessage = errorData.errors?.[0]?.title || errorMessage;
-        } catch {
-          // If can't parse, use default message
-        }
-      }
-    }
-
     return NextResponse.json(
-      { success: false, error: errorMessage },
-      { status: error.response?.status || 500 }
+      { success: false, error: "Failed to remove background" },
+      { status: 500 }
     );
   }
 }
