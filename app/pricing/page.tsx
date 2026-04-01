@@ -12,7 +12,7 @@ export default function PricingPage() {
       </nav>
 
       <div className="max-w-6xl mx-auto px-6 py-20">
-        {/* 标题区 */}
+        {/* 标题 */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-4">Simple, Transparent Pricing</h1>
           <p className="text-xl text-gray-600">Start free · No subscription required · Credits never expire</p>
@@ -49,7 +49,7 @@ export default function PricingPage() {
               </li>
             </ul>
           </div>
-          {/* Popular - 推荐 */}
+          {/* Popular */}
           <div className="bg-white rounded-2xl p-8 border-2 border-blue-500 hover:border-blue-600 transition-all shadow-xl relative">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
               Most Popular
