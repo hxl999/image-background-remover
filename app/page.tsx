@@ -10,7 +10,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   const handleLoginSuccess = (credentialResponse: any) => {
-    // 解析 JWT token 获取用户信息
     const token = credentialResponse.credential
     const base64Url = token.split('.')[1]
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
@@ -66,17 +65,18 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 py-12 px-8">
-      <div className="max-w-6xl mx-auto">
-        {/* 顶部登录区域 */}
-        <div className="flex justify-end mb-6">
+    <main className="min-h-screen bg-white">
+      {/* 顶部导航 */}
+      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-b border-gray-100 z-50">
+        <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+          <div className="text-xl font-semibold text-gray-900">BG Remover</div>
           {user ? (
-            <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg">
+            <div className="flex items-center gap-3">
               <img src={user.picture} alt={user.name} className="w-8 h-8 rounded-full" />
-              <span className="text-sm font-medium">{user.name}</span>
+              <span className="text-sm text-gray-700">{user.name}</span>
               <button 
                 onClick={() => setUser(null)}
-                className="text-sm text-gray-500 hover:text-gray-700"
+                className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
               >
                 退出
               </button>
@@ -88,64 +88,71 @@ export default function Home() {
             />
           )}
         </div>
+      </nav>
 
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-800 mb-3">AI 背景移除</h1>
-          <p className="text-xl text-gray-600">上传图片，一键去除背景</p>
-        </div>
+      {/* 主内容区 */}
+      <div className="pt-32 pb-20 px-8">
+        <div className="max-w-6xl mx-auto">
+          {/* 标题区域 */}
+          <div className="text-center mb-20">
+            <h1 className="text-7xl font-bold text-gray-900 mb-6 tracking-tight">
+              AI 背景移除
+            </h1>
+            <p className="text-2xl text-gray-600 font-light">
+              专业级图像处理，一键移除背景
+            </p>
+          </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">效果展示</h2>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="text-sm font-medium text-gray-600 mb-3 text-center">处理前</p>
-              <div className="bg-gray-100 rounded-xl aspect-square flex items-center justify-center">
-                <span className="text-gray-400">原图示例</span>
+          {/* 效果展示 - 两个圆形大卡片 */}
+          <div className="grid grid-cols-2 gap-12 mb-20">
+            <div className="text-center">
+              <div className="w-80 h-80 mx-auto rounded-full bg-gray-50 border border-gray-200 shadow-lg flex items-center justify-center mb-6">
+                <span className="text-gray-400 text-lg">原图</span>
               </div>
+              <p className="text-lg text-gray-600">移除前</p>
             </div>
-            <div>
-              <p className="text-sm font-medium text-gray-600 mb-3 text-center">处理后</p>
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl aspect-square flex items-center justify-center">
-                <span className="text-gray-400">透明背景</span>
+            <div className="text-center">
+              <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-gray-50 to-white border border-gray-200 shadow-lg flex items-center justify-center mb-6">
+                <span className="text-gray-400 text-lg">透明背景</span>
               </div>
+              <p className="text-lg text-gray-600">移除后</p>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl p-12">
+          {/* 上传处理区域 */}
           {!image ? (
-            <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
-              <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            <label className="block max-w-2xl mx-auto border-2 border-dashed border-gray-300 rounded-3xl p-20 text-center cursor-pointer hover:border-gray-400 hover:bg-gray-50 transition-all">
+              <svg className="w-20 h-20 mx-auto text-gray-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p className="text-lg font-medium text-gray-700">点击或拖拽上传图片</p>
-              <p className="text-sm text-gray-500 mt-2">支持 JPG、PNG 格式</p>
+              <p className="text-xl text-gray-700 mb-2">点击上传图片</p>
+              <p className="text-sm text-gray-500">支持 JPG、PNG 格式</p>
               <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
             </label>
           ) : (
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 gap-8 mb-8">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-2">原图</p>
-                  <img src={image} alt="原图" className="w-full rounded-xl" />
+                  <p className="text-sm text-gray-600 mb-3">原图</p>
+                  <img src={image} alt="原图" className="w-full rounded-2xl border border-gray-200 shadow-sm" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-2">处理后</p>
+                  <p className="text-sm text-gray-600 mb-3">处理后</p>
                   {result ? (
-                    <img src={result} alt="处理后" className="w-full rounded-xl bg-gray-100" />
+                    <img src={result} alt="处理后" className="w-full rounded-2xl border border-gray-200 shadow-sm bg-gray-50" />
                   ) : (
-                    <div className="w-full aspect-square rounded-xl bg-gray-100 flex items-center justify-center">
+                    <div className="w-full aspect-square rounded-2xl border border-gray-200 bg-gray-50 flex items-center justify-center">
                       <span className="text-gray-400">等待处理</span>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-4 justify-center">
                 <button
                   onClick={removeBackground}
                   disabled={loading}
-                  className="flex-1 bg-purple-600 text-white py-3 rounded-xl font-medium hover:bg-purple-700 disabled:bg-gray-400"
+                  className="px-8 py-3 bg-black text-white rounded-full font-medium hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
                 >
                   {loading ? '处理中...' : '移除背景'}
                 </button>
@@ -153,16 +160,16 @@ export default function Home() {
                   <a
                     href={result}
                     download="removed-bg.png"
-                    className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 text-center"
+                    className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors"
                   >
-                    下载
+                    下载图片
                   </a>
                 )}
                 <button
                   onClick={() => { setImage(null); setResult(null) }}
-                  className="px-6 bg-gray-200 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-300"
+                  className="px-8 py-3 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition-colors"
                 >
-                  重置
+                  重新上传
                 </button>
               </div>
             </div>
