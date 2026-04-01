@@ -35,71 +35,69 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-white flex items-center justify-center p-8">
-      <div className="w-full max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-3">AI 背景移除工具</h1>
-          <p className="text-xl text-gray-600">上传图片，一键移除背景</p>
-        </div>
+    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 flex items-center justify-center p-8">
+      <div className="w-full max-w-2xl">
+        <div className="bg-white rounded-3xl shadow-2xl p-12">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">AI 背景移除</h1>
+            <p className="text-gray-600">上传图片，一键去除背景</p>
+          </div>
 
-        {!image ? (
-          <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-20 text-center cursor-pointer hover:border-blue-500 hover:bg-gray-50 transition-all">
-            <div className="space-y-4">
-              <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {!image ? (
+            <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
+              <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <div>
-                <p className="text-xl font-medium text-gray-700">点击上传图片</p>
-                <p className="text-sm text-gray-500 mt-1">支持 JPG、PNG 格式</p>
+              <p className="text-lg font-medium text-gray-700">点击或拖拽上传图片</p>
+              <p className="text-sm text-gray-500 mt-2">支持 JPG、PNG 格式</p>
+              <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
+            </label>
+          ) : (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-600 mb-2">原图</p>
+                  <img src={image} alt="原图" className="w-full rounded-xl" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600 mb-2">处理后</p>
+                  {result ? (
+                    <img src={result} alt="处理后" className="w-full rounded-xl bg-gray-100" />
+                  ) : (
+                    <div className="w-full aspect-square rounded-xl bg-gray-100 flex items-center justify-center">
+                      <span className="text-gray-400">等待处理</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
-          </label>
-        ) : (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">原图</h3>
-                <img src={image} alt="原图" className="w-full rounded-lg border border-gray-200" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">处理后</h3>
-                {result ? (
-                  <img src={result} alt="处理后" className="w-full rounded-lg border border-gray-200 bg-gray-50" />
-                ) : (
-                  <div className="w-full aspect-square rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center">
-                    <span className="text-gray-400">等待处理</span>
-                  </div>
-                )}
-              </div>
-            </div>
 
-            <div className="flex gap-3">
-              <button
-                onClick={removeBackground}
-                disabled={loading}
-                className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
-              >
-                {loading ? '处理中...' : '移除背景'}
-              </button>
-              {result && (
-                <a
-                  href={result}
-                  download="removed-bg.png"
-                  className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 text-center transition-colors"
+              <div className="flex gap-3">
+                <button
+                  onClick={removeBackground}
+                  disabled={loading}
+                  className="flex-1 bg-purple-600 text-white py-3 rounded-xl font-medium hover:bg-purple-700 disabled:bg-gray-400"
                 >
-                  下载图片
-                </a>
-              )}
-              <button
-                onClick={() => { setImage(null); setResult(null) }}
-                className="px-6 bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors"
-              >
-                重新上传
-              </button>
+                  {loading ? '处理中...' : '移除背景'}
+                </button>
+                {result && (
+                  <a
+                    href={result}
+                    download="removed-bg.png"
+                    className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 text-center"
+                  >
+                    下载
+                  </a>
+                )}
+                <button
+                  onClick={() => { setImage(null); setResult(null) }}
+                  className="px-6 bg-gray-200 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-300"
+                >
+                  重置
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </main>
   )
