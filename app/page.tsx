@@ -35,14 +35,34 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 flex items-center justify-center p-8">
-      <div className="w-full max-w-2xl">
-        <div className="bg-white rounded-3xl shadow-2xl p-12">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">AI 背景移除</h1>
-            <p className="text-gray-600">上传图片，一键去除背景</p>
-          </div>
+    <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 py-12 px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-800 mb-3">AI 背景移除</h1>
+          <p className="text-xl text-gray-600">上传图片，一键去除背景</p>
+        </div>
 
+        {/* 示例对比 */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">效果展示</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-3 text-center">处理前</p>
+              <div className="bg-gray-100 rounded-xl aspect-square flex items-center justify-center">
+                <span className="text-gray-400">原图示例</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-600 mb-3 text-center">处理后</p>
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl aspect-square flex items-center justify-center">
+                <span className="text-gray-400">透明背景</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 上传区域 */}
+        <div className="bg-white rounded-3xl shadow-2xl p-12">
           {!image ? (
             <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
               <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
