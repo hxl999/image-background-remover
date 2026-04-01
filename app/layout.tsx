@@ -1,9 +1,7 @@
-import './globals.css'
+'use client'
 
-export const metadata = {
-  title: 'AI Background Remover - 免费在线抠图工具',
-  description: '一键移除图片背景，AI智能抠图',
-}
+import './globals.css'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export default function RootLayout({
   children,
@@ -12,7 +10,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        <GoogleOAuthProvider clientId="966956322051-9n4018bqk4lpk7bq50sjqiveph2479ck.apps.googleusercontent.com">
+          {children}
+        </GoogleOAuthProvider>
+      </body>
     </html>
   )
 }

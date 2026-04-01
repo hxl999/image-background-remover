@@ -1,11 +1,25 @@
 'use client'
 
 import { useState } from 'react'
+import { GoogleLogin } from '@react-oauth/google'
 
 export default function Home() {
+  const [user, setUser] = useState<any>(null)
   const [image, setImage] = useState<string | null>(null)
   const [result, setResult] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  const handleLoginSuccess = (credentialResponse: any) => {
+    // 解析 JWT token 获取用户信息
+    const token = credentialResponse.credential
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''))
+    
+    setUser(JSON.parse(jsonPayload))
+  }
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -54,6 +68,27 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 py-12 px-8">
       <div className="max-w-6xl mx-auto">
+        {/* 顶部登录区域 */}
+        <div className="flex justify-end mb-6">
+          {user ? (
+            <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-lg">
+              <img src={user.picture} alt={user.name} className="w-8 h-8 rounded-full" />
+              <span className="text-sm font-medium">{user.name}</span>
+              <button 
+                onClick={() => setUser(null)}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
+                退出
+              </button>
+            </div>
+          ) : (
+            <GoogleLogin
+              onSuccess={handleLoginSuccess}
+              onError={() => alert('登录失败')}
+            />
+          )}
+        </div>
+
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-800 mb-3">AI 背景移除</h1>
           <p className="text-xl text-gray-600">上传图片，一键去除背景</p>
