@@ -21,13 +21,30 @@ export default function Home() {
     setLoading(true)
     
     try {
-      const res = await fetch('/api/remove-bg', {
+      const base64Data = image.split(',')[1]
+      
+      const response = await fetch('https://api.remove.bg/v1.0/removebg', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image })
+        headers: {
+          'X-Api-Key': 'wnPqYWXaesV49H3yUvp3eToA',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image_file_b64: base64Data,
+          size: 'auto',
+        }),
       })
-      const data = await res.json()
-      setResult(data.result)
+
+      if (!response.ok) {
+        throw new Error('API调用失败')
+      }
+
+      const resultBuffer = await response.arrayBuffer()
+      const resultBase64 = btoa(
+        new Uint8Array(resultBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      )
+      
+      setResult(`data:image/png;base64,${resultBase64}`)
     } catch (error) {
       alert('处理失败，请重试')
     }
@@ -42,7 +59,6 @@ export default function Home() {
           <p className="text-xl text-gray-600">上传图片，一键去除背景</p>
         </div>
 
-        {/* 示例对比 */}
         <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">效果展示</h2>
           <div className="grid grid-cols-2 gap-6">
@@ -61,7 +77,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 上传区域 */}
         <div className="bg-white rounded-3xl shadow-2xl p-12">
           {!image ? (
             <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-16 text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
