@@ -46,12 +46,12 @@ export default function Home() {
 
         <div className="bg-white rounded-2xl shadow-2xl p-12">
           {!image ? (
-            <label className="flex flex-col items-center justify-center h-96 border-3 border-dashed border-blue-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
-              <svg className="w-24 h-24 text-blue-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <label className="flex flex-col items-center justify-center h-80 border-3 border-dashed border-blue-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+              <svg className="w-20 h-20 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <span className="text-2xl font-semibold text-gray-700 mb-2">点击上传图片</span>
-              <span className="text-lg text-gray-500">支持 JPG、PNG 格式</span>
+              <span className="text-xl font-semibold text-gray-700 mb-2">点击上传图片</span>
+              <span className="text-base text-gray-500">支持 JPG、PNG 格式</span>
               <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
             </label>
           ) : (
