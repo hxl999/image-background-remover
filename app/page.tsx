@@ -37,26 +37,26 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-2">AI Background Remover</h1>
-        <p className="text-center text-gray-600 mb-8">一键移除图片背景，AI智能抠图</p>
+        <h1 className="text-5xl font-bold text-center mb-4">AI Background Remover</h1>
+        <p className="text-center text-xl text-gray-600 mb-8">一键移除图片背景，AI智能抠图</p>
 
         <div className="bg-white rounded-lg shadow-xl p-8">
           {!image ? (
             <label className="flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500">
-              <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <span className="text-gray-600">点击上传图片</span>
+              <span className="text-xl text-gray-600">点击上传图片</span>
               <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
             </label>
           ) : (
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <h3 className="font-semibold mb-2">原图</h3>
+                <h3 className="text-lg font-semibold mb-2">原图</h3>
                 <img src={image} alt="原图" className="w-full rounded" />
               </div>
               <div>
-                <h3 className="font-semibold mb-2">处理后</h3>
+                <h3 className="text-lg font-semibold mb-2">处理后</h3>
                 {result ? (
                   <img src={result} alt="处理后" className="w-full rounded bg-gray-100" />
                 ) : (
